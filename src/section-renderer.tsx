@@ -8,7 +8,7 @@ interface SectionRendererProps {
 
 export const SectionRenderer = ({ section }: SectionRendererProps) => {
   const Import = lazy(() =>
-    import('react-native').then(module => ({
+    import('@components').then(module => ({
       default: module[section.sectionComponentType],
     })),
   );
@@ -27,7 +27,7 @@ export const SectionRenderer = ({ section }: SectionRendererProps) => {
 
   return (
     <Suspense fallback={<ActivityIndicator />}>
-      <Import key={section.id} style={section.styles}>
+      <Import key={section.id} style={section.styles} {...section.props}>
         {section.children}
       </Import>
     </Suspense>

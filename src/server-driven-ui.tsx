@@ -1,6 +1,7 @@
 import { Layout, Section, ServerResponse } from './types';
 import { SectionRenderer } from './section-renderer';
 import { View } from 'react-native';
+import { Image } from '@components/image';
 
 const getOrder = (section: Section, placements: Array<Layout[string]>) => {
   return (
@@ -11,8 +12,7 @@ const getOrder = (section: Section, placements: Array<Layout[string]>) => {
 };
 
 export const ServerDrivenUi = () => {
-  // Aqui o screen name ("Root") pode ser dinamico, variando o que renderiza para cada screen
-  const rootScreen = response.screens.find(({ id }) => id === 'Root');
+  const rootScreen = response.screen;
 
   if (rootScreen) {
     const placements = Object.values(rootScreen.compact);
@@ -38,46 +38,52 @@ export const ServerDrivenUi = () => {
         {sections.sort().map(section => (
           <SectionRenderer key={section.id} section={section} />
         ))}
+        <Image
+          source={{
+            uri: 'https://wallpapers.com/images/hd/gol-linhas-aereas-above-the-clouds-w8xy3kgyz1rqk8g1.jpg',
+          }}
+        />
       </View>
     );
   }
 };
 
 const response: ServerResponse = {
-  screens: [
-    {
-      id: 'Root',
-      wide: {},
-      compact: {
-        nav: {
-          sections: [
-            {
-              id: 'Header',
-            },
-          ],
-          order: 0,
-        },
-        main: {
-          sections: [
-            {
-              id: 'Title',
-            },
-            {
-              id: 'Description',
-            },
-          ],
-          order: 1,
-        },
+  screen: {
+    id: 'Root',
+    wide: {},
+    compact: {
+      nav: {
+        sections: [
+          {
+            id: 'Header',
+          },
+        ],
+        order: 0,
       },
-      properties: {
-        style: {
-          marginTop: 60,
-          backgroundColor: '#605ab3',
-          flex: 1,
-        },
+      main: {
+        sections: [
+          {
+            id: 'Title',
+          },
+          {
+            id: 'Description',
+          },
+          {
+            id: 'Banner',
+          },
+        ],
+        order: 1,
       },
     },
-  ],
+    properties: {
+      style: {
+        marginTop: 30,
+        backgroundColor: '#605ab3',
+        flex: 1,
+      },
+    },
+  },
   sections: [
     {
       id: 'Header',
@@ -86,7 +92,7 @@ const response: ServerResponse = {
         {
           id: 'HeaderTitle',
           sectionComponentType: 'Text',
-          children: 'Server driven component',
+          children: 'Server driven component - adonai',
           styles: {
             color: 'red',
             fontSize: 24,
@@ -116,6 +122,17 @@ const response: ServerResponse = {
         fontSize: 18,
         marginTop: 40,
       },
+    },
+    {
+      id: 'Banner',
+      sectionComponentType: 'Image',
+      props: {
+        source: {
+          uri: 'https://wallpapers.com/images/hd/gol-linhas-aereas-above-the-clouds-w8xy3kgyz1rqk8g1.jpg',
+        },
+        resizeMode: 'cover',
+      },
+      styles: { width: '100%', height: 200 },
     },
   ],
 };
