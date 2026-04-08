@@ -1,41 +1,50 @@
 import {
   ImageProps,
   ImageStyle,
+  PressableProps,
   TextProps,
   TextStyle,
   ViewProps,
   ViewStyle,
 } from 'react-native';
 
+type PropsWithoutChildren<T> = Omit<T, 'children'>;
+
 interface ScreenProperties {
   style: ViewStyle;
 }
 
-interface ViewSection {
+interface SectionBase {
   id: string;
-  sectionComponentType: 'View';
-  children: Section[];
-  props?: ViewProps;
-  styles?: ViewStyle;
 }
 
-interface ImageSection {
-  id: string;
-  sectionComponentType: 'Image';
-  children?: undefined;
-  props?: ImageProps;
-  styles?: ImageStyle;
+interface SectionComponent {
+  View: {
+    props?: PropsWithoutChildren<ViewProps>;
+    styles?: ViewStyle;
+    children?: Section[];
+  };
+  Image: {
+    props?: PropsWithoutChildren<ImageProps>;
+    styles?: ImageStyle;
+    children?: never;
+  };
+  Text: {
+    props?: PropsWithoutChildren<TextProps>;
+    styles?: TextStyle;
+    children: string;
+  };
+  Pressable: {
+    props?: PropsWithoutChildren<PressableProps>;
+    styles?: ViewStyle;
+    children?: Section[] | (({ pressed }: { pressed: boolean }) => Section[]);
+  };
 }
 
-interface TextSection {
-  id: string;
-  sectionComponentType: 'Text';
-  children: string;
-  props?: TextProps;
-  styles?: TextStyle;
-}
-
-export type Section = ViewSection | TextSection | ImageSection;
+export type Section<T extends keyof SectionComponent = keyof SectionComponent> =
+  SectionBase & {
+    sectionComponentType: T;
+  } & SectionComponent[T];
 
 export interface Layout {
   [placementName: string]: {
