@@ -39,20 +39,16 @@ export type Section = ViewSection | TextSection | ImageSection;
 
 export interface Layout {
   [placementName: string]: {
-    sections: Pick<Section, 'id'>[];
+    sections: Section[];
     order: number;
+    style?: ViewStyle;
   };
 }
 
-interface Screen {
+export interface ServerResponse {
   id: string;
   properties?: ScreenProperties;
   // No futuro, podemos criar layouts diferentes para diferentes breakpoints
   wide: Layout;
   compact: Layout;
-}
-
-export interface ServerResponse {
-  screen: Screen;
-  sections: Section[];
 }

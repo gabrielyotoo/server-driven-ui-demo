@@ -1,138 +1,113 @@
-import { Layout, Section, ServerResponse } from './types';
+import { ServerResponse } from './types';
 import { SectionRenderer } from './section-renderer';
 import { View } from 'react-native';
-import { Image } from '@components/image';
 
-const getOrder = (section: Section, placements: Array<Layout[string]>) => {
+export const ServerDrivenUi = () => {
+  const placements = Object.entries(response.compact);
   return (
-    placements.find(({ sections }) =>
-      sections.some(({ id }) => id === section.id),
-    )?.order ?? 0
+    <View {...response.properties}>
+      {placements
+        .sort(([_, a], [__, b]) => a.order - b.order)
+        .map(([name, placement]) => (
+          <View style={placement.style} key={name}>
+            {placement.sections.map(section => (
+              <SectionRenderer key={section.id} section={section} />
+            ))}
+          </View>
+        ))}
+    </View>
   );
 };
 
-export const ServerDrivenUi = () => {
-  const rootScreen = response.screen;
-
-  if (rootScreen) {
-    const placements = Object.values(rootScreen.compact);
-    const sections = response.sections
-      .filter(({ id }) => {
-        const sectionsInScreen = placements
-          .sort((a, b) => a.order - b.order)
-          .reduce<string[]>(
-            (acc, cur) =>
-              (acc = [
-                ...acc,
-                ...cur.sections.map(placementSection => placementSection.id),
-              ]),
-            [],
-          );
-
-        return sectionsInScreen.some(sectionId => sectionId === id);
-      })
-      .sort((a, b) => getOrder(a, placements) - getOrder(b, placements));
-
-    return (
-      <View {...rootScreen.properties}>
-        {sections.sort().map(section => (
-          <SectionRenderer key={section.id} section={section} />
-        ))}
-        <Image
-          source={{
-            uri: 'https://wallpapers.com/images/hd/gol-linhas-aereas-above-the-clouds-w8xy3kgyz1rqk8g1.jpg',
-          }}
-        />
-      </View>
-    );
-  }
-};
-
 const response: ServerResponse = {
-  screen: {
-    id: 'Root',
-    wide: {},
-    compact: {
-      nav: {
-        sections: [
-          {
-            id: 'Header',
-          },
-        ],
-        order: 0,
-      },
-      main: {
-        sections: [
-          {
-            id: 'Title',
-          },
-          {
-            id: 'Description',
-          },
-          {
-            id: 'Banner',
-          },
-        ],
-        order: 1,
-      },
-    },
-    properties: {
-      style: {
-        marginTop: 30,
-        backgroundColor: '#605ab3',
-        flex: 1,
-      },
+  id: 'Root',
+  properties: {
+    style: {
+      flex: 1,
+      flexDirection: 'column',
+      borderColor: 'red',
     },
   },
-  sections: [
-    {
-      id: 'Header',
-      sectionComponentType: 'View',
-      children: [
+  wide: {},
+  compact: {
+    bg: {
+      style: {
+        maxHeight: '40%',
+        width: '100%',
+        position: 'relative',
+      },
+      sections: [
         {
-          id: 'HeaderTitle',
-          sectionComponentType: 'Text',
-          children: 'Server driven component - adonai',
+          id: 'BackgroundImage',
+          sectionComponentType: 'Image',
           styles: {
-            color: 'red',
-            fontSize: 24,
+            width: '100%',
+            height: '100%',
+          },
+          props: {
+            resizeMode: 'cover',
+            source: {
+              uri: 'https://wallpapers.com/images/hd/gol-linhas-aereas-above-the-clouds-w8xy3kgyz1rqk8g1.jpg',
+            },
           },
         },
       ],
-      styles: {
-        padding: 10,
-        backgroundColor: 'white',
-      },
+      order: 0,
     },
-    {
-      id: 'Title',
-      sectionComponentType: 'Text',
-      children: 'This is the Title',
-      styles: {
-        color: 'lime',
-        fontSize: 48,
+    header: {
+      style: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        backgroundColor: 'transparent',
+        position: 'absolute',
+        display: 'flex',
+        width: '100%',
+        marginTop: 30,
+        paddingHorizontal: 10,
+        alignItems: 'center',
       },
-    },
-    {
-      id: 'Description',
-      sectionComponentType: 'Text',
-      children: 'This is the Description',
-      styles: {
-        color: 'white',
-        fontSize: 18,
-        marginTop: 40,
-      },
-    },
-    {
-      id: 'Banner',
-      sectionComponentType: 'Image',
-      props: {
-        source: {
-          uri: 'https://wallpapers.com/images/hd/gol-linhas-aereas-above-the-clouds-w8xy3kgyz1rqk8g1.jpg',
+      sections: [
+        {
+          id: 'Logo',
+          sectionComponentType: 'Text',
+          children: 'Smiles :)',
+          styles: {
+            color: 'white',
+            fontSize: 48,
+          },
         },
-        resizeMode: 'cover',
-      },
-      styles: { width: '100%', height: 200 },
+        {
+          id: 'HeaderButtons',
+          sectionComponentType: 'View',
+          children: [
+            { id: 'PixButton', sectionComponentType: 'Text', children: 'Pix' },
+            {
+              id: 'NotificationsButton',
+              sectionComponentType: 'Text',
+              children: 'Notifications',
+            },
+          ],
+          styles: {
+            flexDirection: 'row',
+            columnGap: 8,
+          },
+        },
+      ],
+      order: 1,
     },
-  ],
+    content: {
+      order: 2,
+      style: {
+        backgroundColor: 'white',
+        flex: 1,
+      },
+      sections: [
+        {
+          id: 'Name',
+          sectionComponentType: 'Text',
+          children: 'Gabriel',
+        },
+      ],
+    },
+  },
 };
