@@ -7,6 +7,7 @@ import {
   ViewProps,
   ViewStyle,
 } from 'react-native';
+import { LinearGradientProps } from 'react-native-linear-gradient';
 
 type CustomComponentProps<T> = Omit<T, 'children' | 'style'>;
 
@@ -37,7 +38,13 @@ interface SectionComponent {
   Pressable: {
     props?: CustomComponentProps<PressableProps>;
     styles?: ViewStyle;
-    children?: Section[] | (({ pressed }: { pressed: boolean }) => Section[]);
+    children?: Section[];
+    // | (({ pressed }: { pressed: boolean }) => Section[]);
+  };
+  Gradient: {
+    props?: CustomComponentProps<LinearGradientProps>;
+    styles?: ViewStyle;
+    children?: never;
   };
 }
 

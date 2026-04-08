@@ -51,6 +51,19 @@ const response: ServerResponse = {
             },
           },
         },
+        {
+          id: 'Gradient',
+          sectionComponentType: 'Gradient',
+          props: {
+            colors: ['#2e2e2e', '#2e2e2e', 'transparent'],
+          },
+          styles: {
+            position: 'absolute',
+            top: 0,
+            width: '100%',
+            height: '10%',
+          },
+        },
       ],
       order: 0,
     },
