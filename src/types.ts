@@ -8,7 +8,7 @@ import {
   ViewStyle,
 } from 'react-native';
 
-type PropsWithoutChildren<T> = Omit<T, 'children'>;
+type CustomComponentProps<T> = Omit<T, 'children' | 'style'>;
 
 interface ScreenProperties {
   style: ViewStyle;
@@ -20,31 +20,32 @@ interface SectionBase {
 
 interface SectionComponent {
   View: {
-    props?: PropsWithoutChildren<ViewProps>;
+    props?: CustomComponentProps<ViewProps>;
     styles?: ViewStyle;
     children?: Section[];
   };
   Image: {
-    props?: PropsWithoutChildren<ImageProps>;
+    props?: CustomComponentProps<ImageProps>;
     styles?: ImageStyle;
     children?: never;
   };
   Text: {
-    props?: PropsWithoutChildren<TextProps>;
+    props?: CustomComponentProps<TextProps>;
     styles?: TextStyle;
     children: string;
   };
   Pressable: {
-    props?: PropsWithoutChildren<PressableProps>;
+    props?: CustomComponentProps<PressableProps>;
     styles?: ViewStyle;
     children?: Section[] | (({ pressed }: { pressed: boolean }) => Section[]);
   };
 }
 
-export type Section<T extends keyof SectionComponent = keyof SectionComponent> =
-  SectionBase & {
-    sectionComponentType: T;
-  } & SectionComponent[T];
+export type Section = {
+  [K in keyof SectionComponent]: SectionBase & {
+    sectionComponentType: K;
+  } & SectionComponent[K];
+}[keyof SectionComponent];
 
 export interface Layout {
   [placementName: string]: {
