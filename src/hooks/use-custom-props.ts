@@ -1,15 +1,15 @@
-import { PressableProps } from 'react-native';
-import { Section } from '../types';
+import { PressableActionType, Section } from '../types';
 import { coordinator } from '../routes';
 
 export const useCustomProps = (section: Section) => {
-  let customProps: PressableProps | null = null;
-
   if (section.sectionComponentType === 'Pressable') {
-    customProps = {
+    const { action } = section;
+    return {
       onPress: () => {
-        if ('to' in section.action) {
-          coordinator.goTo(section.action.to);
+        if (action.type === PressableActionType.NavigateTo) {
+          coordinator.goTo(action.to);
+        } else if (action.type === PressableActionType.NavigateBack) {
+          coordinator.goBack();
         } else {
           // handle API
         }
@@ -17,5 +17,5 @@ export const useCustomProps = (section: Section) => {
     };
   }
 
-  return customProps ?? {};
+  return {};
 };

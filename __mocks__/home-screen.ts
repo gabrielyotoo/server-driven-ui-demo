@@ -1,13 +1,12 @@
 import { MainStackScreenNames } from '../src/routes/router';
-import { ServerResponse } from '../src/types';
+import { PressableActionType, ServerResponse } from '../src/types';
 
 export const response: ServerResponse = {
-  id: 'Root',
+  id: 'Home',
   properties: {
     style: {
       flex: 1,
       flexDirection: 'column',
-      borderColor: 'red',
     },
   },
   wide: {},
@@ -78,7 +77,10 @@ export const response: ServerResponse = {
             {
               id: 'PixButton',
               sectionComponentType: 'Pressable',
-              action: { to: MainStackScreenNames.Pix },
+              action: {
+                type: PressableActionType.NavigateTo,
+                to: MainStackScreenNames.Pix,
+              },
               children: [
                 {
                   id: 'PixIcon',
@@ -98,7 +100,10 @@ export const response: ServerResponse = {
             {
               id: 'NotificationsButton',
               sectionComponentType: 'Pressable',
-              action: { to: MainStackScreenNames.Notifications },
+              action: {
+                type: PressableActionType.NavigateTo,
+                to: MainStackScreenNames.Notifications,
+              },
               children: [
                 {
                   id: 'NotificationsIcon',

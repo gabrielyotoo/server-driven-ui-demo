@@ -2,6 +2,7 @@ import {
   ImageProps,
   ImageStyle,
   PressableProps,
+  ScrollViewProps,
   TextProps,
   TextStyle,
   ViewProps,
@@ -20,17 +21,32 @@ interface SectionBase {
   id: string;
 }
 
-interface NavigateAction {
+export enum PressableActionType {
+  NavigateBack,
+  NavigateTo,
+  PostRequest,
+}
+
+interface NavigateBackAction {
+  type: PressableActionType.NavigateBack;
+}
+
+interface NavigateToAction {
+  type: PressableActionType.NavigateTo;
   to: MainStackScreenNames;
 }
 
-interface RequestAction<T> {
-  api: 'miles';
-  endpoint: 'buy';
+interface PostRequestAction<T> {
+  type: PressableActionType.PostRequest;
+  api: 'pagol';
+  endpoint: 'register';
   body: T;
 }
 
-type PressableAction<T = unknown> = NavigateAction | RequestAction<T>;
+type PressableAction<T = unknown> =
+  | NavigateToAction
+  | NavigateBackAction
+  | PostRequestAction<T>;
 
 interface SectionComponent {
   View: {
@@ -51,7 +67,7 @@ interface SectionComponent {
   Pressable: {
     props?: CustomComponentProps<PressableProps>;
     styles?: ViewStyle;
-    children?: Section[];
+    children: Section[];
     // | (({ pressed }: { pressed: boolean }) => Section[]);
     action: PressableAction;
   };
@@ -59,6 +75,11 @@ interface SectionComponent {
     props?: CustomComponentProps<LinearGradientProps>;
     styles?: ViewStyle;
     children?: never;
+  };
+  ScrollView: {
+    props?: CustomComponentProps<ScrollViewProps>;
+    styles?: ViewStyle;
+    children?: Section[];
   };
 }
 

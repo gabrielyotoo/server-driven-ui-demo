@@ -16,10 +16,15 @@ export const SectionRenderer = ({ section }: SectionRendererProps) => {
     })),
   );
 
-  if (typeof section.children === 'object') {
+  if (Array.isArray(section.children)) {
     return (
       <Suspense fallback={<ActivityIndicator />}>
-        <Import key={section.id} style={section.styles} {...customProps}>
+        <Import
+          key={section.id}
+          style={section.styles}
+          {...section.props}
+          {...customProps}
+        >
           {section.children.map(child => (
             <SectionRenderer key={child.id} section={child} />
           ))}

@@ -8,6 +8,7 @@ interface ServerDrivenScreenProps {
 
 export const ServerDrivenScreen = ({ screenName }: ServerDrivenScreenProps) => {
   const { data, isLoading } = useServerScreen(screenName);
+  console.log(data);
 
   if (isLoading) {
     return <ActivityIndicator />;
