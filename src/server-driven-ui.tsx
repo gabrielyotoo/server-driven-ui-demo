@@ -1,6 +1,7 @@
 import { ServerResponse } from './types';
 import { SectionRenderer } from './section-renderer';
 import { View } from 'react-native';
+import { MainStackScreenNames } from './routes/router';
 
 export const ServerDrivenUi = () => {
   const placements = Object.entries(response.compact);
@@ -93,11 +94,45 @@ const response: ServerResponse = {
           id: 'HeaderButtons',
           sectionComponentType: 'View',
           children: [
-            { id: 'PixButton', sectionComponentType: 'Text', children: 'Pix' },
+            {
+              id: 'PixButton',
+              sectionComponentType: 'Pressable',
+              action: { to: MainStackScreenNames.Pix },
+              children: [
+                {
+                  id: 'PixIcon',
+                  sectionComponentType: 'Image',
+                  props: {
+                    source: {
+                      uri: 'https://files.passeidireto.com/2889edc1-1a70-456a-a32c-e3f050102347/2889edc1-1a70-456a-a32c-e3f050102347.png',
+                    },
+                  },
+                  styles: {
+                    height: 28,
+                    width: 28,
+                  },
+                },
+              ],
+            },
             {
               id: 'NotificationsButton',
-              sectionComponentType: 'Text',
-              children: 'Notifications',
+              sectionComponentType: 'Pressable',
+              action: { to: MainStackScreenNames.Notifications },
+              children: [
+                {
+                  id: 'NotificationsIcon',
+                  sectionComponentType: 'Image',
+                  props: {
+                    source: {
+                      uri: 'https://cdn-icons-png.flaticon.com/512/2645/2645897.png',
+                    },
+                  },
+                  styles: {
+                    height: 28,
+                    width: 28,
+                  },
+                },
+              ],
             },
           ],
           styles: {

@@ -1,12 +1,15 @@
 import { lazy, Suspense } from 'react';
 import { Section } from './types';
 import { ActivityIndicator } from 'react-native';
+import { useCustomProps } from './hooks/use-custom-props';
 
 interface SectionRendererProps {
   section: Section;
 }
 
 export const SectionRenderer = ({ section }: SectionRendererProps) => {
+  const customProps = useCustomProps(section);
+
   const Import = lazy(() =>
     import('@components').then(module => ({
       default: module[section.sectionComponentType],
@@ -16,7 +19,7 @@ export const SectionRenderer = ({ section }: SectionRendererProps) => {
   if (typeof section.children === 'object') {
     return (
       <Suspense fallback={<ActivityIndicator />}>
-        <Import key={section.id} style={section.styles}>
+        <Import key={section.id} style={section.styles} {...customProps}>
           {section.children.map(child => (
             <SectionRenderer key={child.id} section={child} />
           ))}

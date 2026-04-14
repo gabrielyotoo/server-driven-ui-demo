@@ -8,6 +8,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import { LinearGradientProps } from 'react-native-linear-gradient';
+import { MainStackScreenNames } from './routes/router';
 
 type CustomComponentProps<T> = Omit<T, 'children' | 'style'>;
 
@@ -18,6 +19,18 @@ interface ScreenProperties {
 interface SectionBase {
   id: string;
 }
+
+interface NavigateAction {
+  to: MainStackScreenNames;
+}
+
+interface RequestAction<T> {
+  api: 'miles';
+  endpoint: 'buy';
+  body: T;
+}
+
+type PressableAction<T = unknown> = NavigateAction | RequestAction<T>;
 
 interface SectionComponent {
   View: {
@@ -40,6 +53,7 @@ interface SectionComponent {
     styles?: ViewStyle;
     children?: Section[];
     // | (({ pressed }: { pressed: boolean }) => Section[]);
+    action: PressableAction;
   };
   Gradient: {
     props?: CustomComponentProps<LinearGradientProps>;
