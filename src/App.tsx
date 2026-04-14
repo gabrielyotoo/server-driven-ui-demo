@@ -1,22 +1,33 @@
 import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { ServerDrivenUi } from './server-driven-ui';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Router } from './routes';
+import { HttpContext } from './context/http';
+import { AxiosClient } from './services/axios';
+
+const queryClient = new QueryClient();
+
+const axios = new AxiosClient();
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
-    <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
-    </SafeAreaProvider>
+    <QueryClientProvider client={queryClient}>
+      <HttpContext.Provider value={axios}>
+        <SafeAreaProvider>
+          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+          <AppContent />
+        </SafeAreaProvider>
+      </HttpContext.Provider>
+    </QueryClientProvider>
   );
 }
 
 function AppContent() {
   return (
     <View style={styles.container}>
-      <ServerDrivenUi />
+      <Router />
     </View>
   );
 }
