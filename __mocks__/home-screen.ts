@@ -8,6 +8,9 @@ export const response: ServerResponse = {
       flex: 1,
       flexDirection: 'column',
     },
+    statusBar: {
+      style: 'light-content',
+    },
   },
   wide: {},
   compact: {

@@ -3,6 +3,7 @@ import {
   ImageStyle,
   PressableProps,
   ScrollViewProps,
+  StatusBarStyle,
   TextProps,
   TextStyle,
   ViewProps,
@@ -10,11 +11,17 @@ import {
 } from 'react-native';
 import { LinearGradientProps } from 'react-native-linear-gradient';
 import { MainStackScreenNames } from './routes/router';
+import { NativeSafeAreaViewProps } from 'react-native-safe-area-context';
 
 type CustomComponentProps<T> = Omit<T, 'children' | 'style'>;
 
 interface ScreenProperties {
   style: ViewStyle;
+  safeAreaEdges?: NativeSafeAreaViewProps['edges'];
+  statusBar: {
+    style: StatusBarStyle;
+    animated?: boolean;
+  };
 }
 
 interface SectionBase {

@@ -1,22 +1,25 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StatusBar, StyleSheet, Text, View } from 'react-native';
 
 export const Notifications = () => (
-  <FlatList
-    style={styles.list}
-    contentContainerStyle={styles.container}
-    data={[
-      { id: 1, title: 'Novo app!', text: 'Novo app em funcionamento' },
-      { id: 2, title: 'SDUI', text: 'Home e tela de Pix vêm do SDUI' },
-      { id: 3, title: 'Notifications', text: 'Notifications é hardcoded' },
-    ]}
-    renderItem={({ item }) => (
-      <View style={styles.notification}>
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.text}>{item.text}</Text>
-      </View>
-    )}
-    ItemSeparatorComponent={<View style={styles.separator} />}
-  />
+  <>
+    <StatusBar barStyle="dark-content" />
+    <FlatList
+      style={styles.list}
+      contentContainerStyle={styles.container}
+      data={[
+        { id: 1, title: 'Novo app!', text: 'Novo app em funcionamento' },
+        { id: 2, title: 'SDUI', text: 'Home e tela de Pix vêm do SDUI' },
+        { id: 3, title: 'Notifications', text: 'Notifications é hardcoded' },
+      ]}
+      renderItem={({ item }) => (
+        <View style={styles.notification}>
+          <Text style={styles.title}>{item.title}</Text>
+          <Text style={styles.text}>{item.text}</Text>
+        </View>
+      )}
+      ItemSeparatorComponent={<View style={styles.separator} />}
+    />
+  </>
 );
 
 const styles = StyleSheet.create({

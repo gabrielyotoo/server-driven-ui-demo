@@ -32,7 +32,13 @@ export function Router() {
           }}
           component={Home}
         />
-        <RootStack.Screen name={MainStackScreenNames.Pix} component={Pix} />
+        <RootStack.Screen
+          name={MainStackScreenNames.Pix}
+          component={Pix}
+          options={{
+            headerShown: false,
+          }}
+        />
         <RootStack.Screen
           name={MainStackScreenNames.Notifications}
           component={NotificationsScreen}

@@ -7,6 +7,10 @@ export const response: ServerResponse = {
       flex: 1,
       justifyContent: 'space-between',
     },
+    safeAreaEdges: ['top'],
+    statusBar: {
+      style: 'dark-content',
+    },
   },
   wide: {},
   compact: {
