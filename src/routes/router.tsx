@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { navigationRef } from './navigation';
-import { ServerDrivenScreen } from '../server-driven-ui';
+import { ServerDrivenScreen } from '../server-driven-screen';
 import { Notifications as NotificationsScreen } from '../screens/notifications';
 
 export enum MainStackScreenNames {

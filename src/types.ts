@@ -22,6 +22,7 @@ interface ScreenProperties {
     style: StatusBarStyle;
     animated?: boolean;
   };
+  scrollable?: boolean;
 }
 
 interface SectionBase {

@@ -7,7 +7,7 @@ export const response: ServerResponse = {
       flex: 1,
       justifyContent: 'space-between',
     },
-    safeAreaEdges: ['top'],
+    safeAreaEdges: ['top', 'bottom'],
     statusBar: {
       style: 'dark-content',
     },
@@ -112,7 +112,6 @@ export const response: ServerResponse = {
                   styles: {
                     overflow: 'hidden',
                   },
-
                   props: {
                     numberOfLines: 13,
                   },
@@ -248,11 +247,21 @@ export const response: ServerResponse = {
             endpoint: 'register',
             body: { name: 'test', email: 'test@sdui.app' },
           },
+          styles: {
+            backgroundColor: 'orange',
+            marginHorizontal: 10,
+            borderRadius: 50,
+            paddingVertical: 20,
+          },
           children: [
             {
               id: 'RegisterText',
               children: 'Realizar cadastro',
               sectionComponentType: 'Text',
+              styles: {
+                color: 'white',
+                textAlign: 'center',
+              },
             },
           ],
         },
@@ -262,11 +271,19 @@ export const response: ServerResponse = {
           action: {
             type: PressableActionType.NavigateBack,
           },
+          styles: {
+            marginHorizontal: 10,
+            borderRadius: 50,
+            paddingVertical: 20,
+          },
           children: [
             {
               id: 'NotNowText',
               children: 'Agora não',
               sectionComponentType: 'Text',
+              styles: {
+                textAlign: 'center',
+              },
             },
           ],
         },
