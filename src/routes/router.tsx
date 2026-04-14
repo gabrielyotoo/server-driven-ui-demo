@@ -2,6 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { navigationRef } from './navigation';
 import { ServerDrivenScreen } from '../server-driven-ui';
+import { Notifications as NotificationsScreen } from '../screens/notifications';
 
 export enum MainStackScreenNames {
   Home = 'Home',
@@ -19,7 +20,6 @@ const RootStack = createNativeStackNavigator<RootStackParams>();
 
 const Home = () => <ServerDrivenScreen screenName="Home" />;
 const Pix = () => <ServerDrivenScreen screenName="Pix" />;
-const Notifications = () => <ServerDrivenScreen screenName="Notifications" />;
 
 export function Router() {
   return (
@@ -35,7 +35,7 @@ export function Router() {
         <RootStack.Screen name={MainStackScreenNames.Pix} component={Pix} />
         <RootStack.Screen
           name={MainStackScreenNames.Notifications}
-          component={Notifications}
+          component={NotificationsScreen}
         />
       </RootStack.Navigator>
     </NavigationContainer>
