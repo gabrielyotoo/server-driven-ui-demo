@@ -27,6 +27,7 @@ interface ScreenProperties {
 
 interface SectionBase {
   id: string;
+  order: number;
 }
 
 export enum PressableActionType {
@@ -97,18 +98,11 @@ export type Section = {
   } & SectionComponent[K];
 }[keyof SectionComponent];
 
-export interface Layout {
-  [placementName: string]: {
-    sections: Section[];
-    order: number;
-    style?: ViewStyle;
-  };
-}
-
-export interface ServerResponse {
+export interface Screen {
   id: string;
+  name: string;
   properties?: ScreenProperties;
   // No futuro, podemos criar layouts diferentes para diferentes breakpoints
-  wide: Layout;
-  compact: Layout;
+  wide: Section[];
+  compact: Section[];
 }

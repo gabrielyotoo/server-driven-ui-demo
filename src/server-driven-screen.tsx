@@ -1,5 +1,11 @@
 import { SectionRenderer } from './section-renderer';
-import { ActivityIndicator, ScrollView, StatusBar, View } from 'react-native';
+import {
+  ActivityIndicator,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  View,
+} from 'react-native';
 import { useServerScreen } from './hooks/use-server-screen';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -15,17 +21,11 @@ export const ServerDrivenScreen = ({ screenName }: ServerDrivenScreenProps) => {
   }
 
   if (screen) {
-    const placements = Object.entries(screen.compact);
+    const sections = screen.compact;
 
-    const renderPlacements = placements
-      .sort(([_, a], [__, b]) => a.order - b.order)
-      .map(([name, placement]) => (
-        <View style={placement.style} key={name}>
-          {placement.sections.map(section => (
-            <SectionRenderer key={section.id} section={section} />
-          ))}
-        </View>
-      ));
+    const renderSections = sections
+      .sort((a, b) => a.order - b.order)
+      .map(section => <SectionRenderer key={section.id} section={section} />);
 
     if (screen.properties?.safeAreaEdges) {
       return (
@@ -38,7 +38,7 @@ export const ServerDrivenScreen = ({ screenName }: ServerDrivenScreenProps) => {
             {...screen.properties}
             edges={screen.properties?.safeAreaEdges ?? []}
           >
-            {renderPlacements}
+            {renderSections}
           </SafeAreaView>
         </>
       );
@@ -51,7 +51,7 @@ export const ServerDrivenScreen = ({ screenName }: ServerDrivenScreenProps) => {
             barStyle={screen.properties?.statusBar.style ?? 'default'}
             animated={screen.properties?.statusBar.animated}
           />
-          <ScrollView {...screen.properties}>{renderPlacements}</ScrollView>
+          <ScrollView {...screen.properties}>{renderSections}</ScrollView>
         </>
       );
     }
@@ -62,8 +62,19 @@ export const ServerDrivenScreen = ({ screenName }: ServerDrivenScreenProps) => {
           barStyle={screen.properties?.statusBar.style ?? 'default'}
           animated={screen.properties?.statusBar.animated}
         />
-        <View {...screen.properties}>{renderPlacements}</View>
+        <View
+          {...screen.properties}
+          style={[screen.properties?.style, styles.screen]}
+        >
+          {renderSections}
+        </View>
       </>
     );
   }
 };
+
+const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+  },
+});
