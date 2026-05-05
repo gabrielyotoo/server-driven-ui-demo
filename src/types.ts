@@ -29,9 +29,9 @@ interface SectionBase {
 }
 
 export enum PressableActionType {
-  NavigateBack,
-  NavigateTo,
-  PostRequest,
+  NavigateBack = 'NavigateBack',
+  NavigateTo = 'NavigateTo',
+  PostRequest = 'PostRequest',
 }
 
 interface NavigateBackAction {
