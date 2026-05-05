@@ -19,12 +19,7 @@ export const SectionRenderer = ({ section }: SectionRendererProps) => {
   if (Array.isArray(section.children)) {
     return (
       <Suspense fallback={<ActivityIndicator />}>
-        <Import
-          key={section.id}
-          style={section.styles}
-          {...section.props}
-          {...customProps}
-        >
+        <Import key={section.id} {...section.props} {...customProps}>
           {section.children.map(child => (
             <SectionRenderer key={child.id} section={child} />
           ))}
@@ -35,7 +30,7 @@ export const SectionRenderer = ({ section }: SectionRendererProps) => {
 
   return (
     <Suspense fallback={<ActivityIndicator />}>
-      <Import key={section.id} style={section.styles} {...section.props}>
+      <Import key={section.id} {...section.props}>
         {section.children}
       </Import>
     </Suspense>

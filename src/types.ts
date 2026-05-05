@@ -1,11 +1,9 @@
 import {
   ImageProps,
-  ImageStyle,
   PressableProps,
   ScrollViewProps,
   StatusBarStyle,
   TextProps,
-  TextStyle,
   ViewProps,
   ViewStyle,
 } from 'react-native';
@@ -13,7 +11,7 @@ import { LinearGradientProps } from 'react-native-linear-gradient';
 import { MainStackScreenNames } from './routes/router';
 import { NativeSafeAreaViewProps } from 'react-native-safe-area-context';
 
-type CustomComponentProps<T> = Omit<T, 'children' | 'style'>;
+type CustomComponentProps<T> = Omit<T, 'children'>;
 
 interface ScreenProperties {
   style: ViewStyle;
@@ -60,34 +58,28 @@ type PressableAction<T = unknown> =
 interface SectionComponent {
   View: {
     props?: CustomComponentProps<ViewProps>;
-    styles?: ViewStyle;
     children?: Section[];
   };
   Image: {
     props?: CustomComponentProps<ImageProps>;
-    styles?: ImageStyle;
     children?: never;
   };
   Text: {
     props?: CustomComponentProps<TextProps>;
-    styles?: TextStyle;
     children: string;
   };
   Pressable: {
     props?: CustomComponentProps<PressableProps>;
-    styles?: ViewStyle;
     children: Section[];
     // | (({ pressed }: { pressed: boolean }) => Section[]);
     action: PressableAction;
   };
   Gradient: {
     props?: CustomComponentProps<LinearGradientProps>;
-    styles?: ViewStyle;
     children?: never;
   };
   ScrollView: {
     props?: CustomComponentProps<ScrollViewProps>;
-    styles?: ViewStyle;
     children?: Section[];
   };
 }
